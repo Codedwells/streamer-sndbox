@@ -1,0 +1,13 @@
+services:
+  app:
+    build:
+      dockerfile: Dockerfile.dev
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - S3_ENDPOINT=http://minio:9000
+    env_file:
+      - .env
+    command: npm run dev

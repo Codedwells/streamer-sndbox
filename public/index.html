@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Video Uploader</title>
+  </head>
+  <body>
+    <h1>Upload a Video</h1>
+    <form action="/api/v1/upload" method="POST" enctype="multipart/form-data">
+      <input type="file" name="video" accept="video/*" required />
+      <button type="submit">Upload</button>
+    </form>
+
+    <h2>Uploaded Videos</h2>
+    <div id="videos">
+      <!-- videos injected via script -->
+    </div>
+
+    <script>
+      fetch("/api/v1/videos")
+        .then((res) => {
+          if (!res.ok) throw new Error("Failed to fetch videos");
+          return res.json();
+        })
+        .then((videos) => {
+          const container = document.getElementById("videos");
+          if (!videos.length) {
+            container.innerHTML = "<p>No videos uploaded yet</p>";
+            return;
+          }
+          videos.forEach((url) => {
+            const video = document.createElement("video");
+            video.src = url;
+            video.controls = true;
+            video.width = 480;
+            container.appendChild(video);
+          });
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          document.getElementById("videos").innerHTML =
+            '<p style="color: red;">Error loading videos</p>';
+        });
+    </script>
+  </body>
+</html>
