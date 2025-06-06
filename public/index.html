@@ -2,67 +2,46 @@
 <html>
   <head>
     <title>Video Uploader</title>
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest" defer></script>
+    <script src="script.js" defer></script>
   </head>
   <body>
-    <h1>Upload a Video</h1>
-    <form action="/api/v1/upload" method="POST" enctype="multipart/form-data">
-      <input type="file" name="video" accept="video/*" required />
-      <button type="submit">Upload</button>
-    </form>
+    <div class="container">
+      <h1>Video Uploader</h1>
+      <form
+        id="upload-form"
+        action="/api/v1/upload"
+        method="POST"
+        enctype="multipart/form-data"
+      >
+        <label for="video-upload" class="file-upload-label"
+          >Choose a video file</label
+        >
+        <div class="file-name" id="file-name-display">No file chosen</div>
+        <input
+          type="file"
+          name="video"
+          id="video-upload"
+          accept="video/*"
+          required
+        />
 
-    <h2>Uploaded Videos</h2>
-    <div id="videos">
-      <!-- videos injected via script -->
+        <div id="upload-progress-container" style="display: none">
+          <div class="progress-bar-container">
+            <div class="progress-bar" id="upload-progress-bar"></div>
+          </div>
+          <div class="progress-text" id="upload-progress-text">0%</div>
+        </div>
+
+        <button type="submit">Upload Video</button>
+      </form>
+
+      <h2>Uploaded Videos</h2>
+      <div id="videos">
+        <!-- videos injected via script -->
+      </div>
     </div>
-
-    <script>
-      fetch("/api/v1/videos")
-        .then((res) => {
-          if (!res.ok) throw new Error("Failed to fetch videos");
-          return res.json();
-        })
-        .then((videos) => {
-          const container = document.getElementById("videos");
-          if (!videos.length) {
-            container.innerHTML = "<p>No videos uploaded yet</p>";
-            return;
-          }
-          
-          videos.forEach((url) => {
-            const videoContainer = document.createElement("div");
-            videoContainer.className = "video-container";
-            videoContainer.style.marginBottom = "20px";
-            
-            const video = document.createElement("video");
-            video.controls = true;
-            video.width = 480;
-            video.height = 270;
-            
-            const videoSrc = url;
-            
-            if (Hls.isSupported()) {
-              const hls = new Hls();
-              hls.loadSource(videoSrc);
-              hls.attachMedia(video);
-              hls.on(Hls.Events.MANIFEST_PARSED, function() {
-                video.play();
-              });
-            } 
-            // For browsers with native HLS support
-            else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-              video.src = videoSrc;
-            }
-            
-            videoContainer.appendChild(video);
-            container.appendChild(videoContainer);
-          });
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-          document.getElementById("videos").innerHTML =
-            '<p style="color: red;">Error loading videos</p>';
-        });
-    </script>
   </body>
 </html>
