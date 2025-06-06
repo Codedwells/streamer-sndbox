@@ -28,6 +28,24 @@
           required
         />
 
+        <div class="packager-options">
+          <p>Choose packager:</p>
+          <div class="radio-group">
+            <input
+              type="radio"
+              id="ffmpeg"
+              name="packager"
+              value="ffmpeg"
+              checked
+            />
+            <label for="ffmpeg">FFmpeg (Default)</label>
+          </div>
+          <div class="radio-group">
+            <input type="radio" id="shaka" name="packager" value="shaka" />
+            <label for="shaka">Shaka Packager</label>
+          </div>
+        </div>
+
         <div id="upload-progress-container" style="display: none">
           <div class="progress-bar-container">
             <div class="progress-bar" id="upload-progress-bar"></div>

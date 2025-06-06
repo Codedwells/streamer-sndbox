@@ -164,6 +164,32 @@ button:active {
   padding-bottom: 20px;
 }
 
+/* Video Info Styles */
+.video-info {
+  padding: 15px;
+  border-bottom: 1px solid #eaeaea;
+  background-color: #f9f9f9;
+}
+
+.video-info h3 {
+  margin: 0;
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.packager-info,
+.date-info {
+  font-size: 13px;
+  color: #666;
+  margin: 5px 0;
+}
+
+.packager-info strong,
+.date-info strong {
+  color: #444;
+}
+
 .video-container:hover {
   transform: translateY(-7px);
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
@@ -171,6 +197,7 @@ button:active {
 
 .video-player {
   width: 100%;
+  position: relative; /* For correct play button positioning */
 }
 
 video {
@@ -225,4 +252,84 @@ video {
   text-align: center;
   margin: 20px auto;
   max-width: 600px;
+}
+
+/* Packager Options Styles */
+.packager-options {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  width: 80%;
+}
+
+.packager-options p {
+  margin: 0 0 0.5rem;
+  font-weight: 600;
+  color: #2c3e50;
+  text-align: center;
+}
+
+.radio-group {
+  margin: 0.5rem 0;
+  display: flex;
+  align-items: center;
+}
+
+.radio-group input[type="radio"] {
+  margin-right: 8px;
+}
+
+.radio-group label {
+  cursor: pointer;
+}
+
+/* Play Button Styles */
+.play-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: 2px solid white;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.play-button:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+/* Quality selector styles */
+.quality-selector {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: white;
+  font-size: 13px;
+  z-index: 10;
+  display: none;
+}
+
+.video-container:hover .quality-selector {
+  display: block;
+}
+
+.quality-selector select {
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 3px;
+  border-radius: 3px;
+  font-size: 12px;
+  margin-left: 5px;
 }

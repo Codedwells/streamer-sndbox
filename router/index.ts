@@ -17,18 +17,26 @@ router.post(
         res.status(400).json({ error: "No file uploaded" });
         return;
       }
-      await transcodeAndUpload(req.file.path, req.file.originalname);
+      // Get the packager type from the form data (default to ffmpeg if not provided)
+      const packager = req.body.packager || "ffmpeg";
+      await transcodeAndUpload(req.file.path, req.file.originalname, packager);
       res.redirect("/");
     } catch (err) {
       console.error(err);
-      res.status(500).json({ error: "Failed to upload video" });
+      // Provide more detailed error message
+      const errorMessage =
+        err instanceof Error ? err.message : "Failed to upload video";
+      res.status(500).json({
+        error: errorMessage,
+        packager: req.body.packager || "ffmpeg",
+      });
     }
   }
 );
 
 router.get("/videos", async (_, res) => {
-  const urls = await listVideos();
-  res.status(200).json(urls);
+  const videos = await listVideos();
+  res.status(200).json(videos);
 });
 
 export default router;

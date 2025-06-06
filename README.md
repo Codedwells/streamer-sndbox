@@ -5,6 +5,9 @@ Streamer Sandbox is a versatile project designed to handle video streaming and f
 ## Features
 
 - **Video Streaming**: Supports HLS (HTTP Live Streaming) for adaptive bitrate streaming.
+- **Multiple Packager Options**: Choose between FFmpeg or Google's Shaka Packager for HLS content.
+- **Adaptive Bitrate Streaming**: Provides multiple quality levels when using Shaka Packager.
+- **Quality Selection**: Interactive quality selector for videos transcoded with Shaka Packager.
 - **File Uploads**: Handles file uploads with ease, including large files.
 - **AWS S3 Integration**: Utilizes AWS S3 for secure and scalable storage.
 - **Dockerized Environment**: Simplifies development and deployment with Docker.
@@ -62,6 +65,29 @@ Streamer Sandbox is a versatile project designed to handle video streaming and f
 3. Set up environment variables:
    - Create a `.env` file in the root directory.
    - Add your AWS credentials and other necessary configurations.
+
+## Packager Options
+
+### FFmpeg (Default)
+
+FFmpeg is used by default to generate HLS content. It produces a basic HLS stream with segments.
+
+### Google Shaka Packager
+
+Shaka Packager is an advanced media packaging tool that offers:
+
+- Multiple video qualities (low, medium, high)
+- Adaptive bitrate streaming
+- DASH and HLS support from the same source content
+- Interactive quality selection in the player
+- Better compatibility with various players and devices
+
+When using Shaka Packager, the system will:
+
+1. Create multiple quality renditions of your video
+2. Generate both DASH and HLS manifests
+3. Add quality selection controls to the player
+4. Store packaging metadata for better organization
 
 ### Running the Project
 
