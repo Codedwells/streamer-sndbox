@@ -1,3 +1,5 @@
+import "dotenv/config";
+
 export const ENV = {
   SERVER_PORT: process.env.SERVER_PORT || 8001,
   UPLOAD_PATH: process.env.UPLOAD_PATH || "./uploads",

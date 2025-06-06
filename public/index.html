@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>Video Uploader</title>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   </head>
   <body>
     <h1>Upload a Video</h1>
@@ -27,12 +28,34 @@
             container.innerHTML = "<p>No videos uploaded yet</p>";
             return;
           }
+          
           videos.forEach((url) => {
+            const videoContainer = document.createElement("div");
+            videoContainer.className = "video-container";
+            videoContainer.style.marginBottom = "20px";
+            
             const video = document.createElement("video");
-            video.src = url;
             video.controls = true;
             video.width = 480;
-            container.appendChild(video);
+            video.height = 270;
+            
+            const videoSrc = url;
+            
+            if (Hls.isSupported()) {
+              const hls = new Hls();
+              hls.loadSource(videoSrc);
+              hls.attachMedia(video);
+              hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                video.play();
+              });
+            } 
+            // For browsers with native HLS support
+            else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+              video.src = videoSrc;
+            }
+            
+            videoContainer.appendChild(video);
+            container.appendChild(videoContainer);
           });
         })
         .catch((error) => {

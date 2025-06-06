@@ -13,7 +13,7 @@ services:
       - minio
 
   minio:
-    image: minio/minio
+    image: minio/minio:RELEASE.2025-03-12T18-04-18Z
     command: server /data --console-address ":${MINIO_CONSOLE_PORT}"
     ports:
       - "${MINIO_API_PORT}:9000"
@@ -27,12 +27,14 @@ services:
       - app-network
 
   minio-client:
-    image: minio/mc
+    image: minio/mc:RELEASE.2025-03-12T17-29-24Z
     depends_on:
       - minio
+    networks:
+      - app-network
     entrypoint: >
       /bin/sh -c "
-        sleep 5;
+        sleep 10;
         mc alias set local http://minio:9000 ${MINIO_ROOT_USER} ${MINIO_ROOT_PASSWORD};
         mc mb -p local/${S3_BUCKET};
         mc policy set public local/${S3_BUCKET};
@@ -41,3 +43,7 @@ services:
 
 volumes:
   minio_data:
+
+networks:
+  app-network:
+    driver: bridge
